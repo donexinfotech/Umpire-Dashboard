@@ -1,54 +1,35 @@
-const express = require('express');
+const cors = require("cors");
+const express = require("express");
 const app = express();
 const connectDb = require("./utils/db");
-const cors = require("cors");
 const authRoute = require("./router/Auth-router");
-const availabilityRoute = require('./router/Availablity-router');
+const availabilityRoute = require("./router/Availablity-router");
 const reviewRoute = require("./router/Reviews-router");
 
-// CORS configuration to allow localhost during development and Vercel in production
-const allowedOrigins = [
-  'http://localhost:3000', // Localhost for React development server (or whatever port you're using)
-  'https://umpire-dashboard.vercel.app', // Replace with your Vercel frontend URL
-];
-
-// CORS middleware
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: ['https://umpire-dashboard.vercel.app', 'http://localhost:3000'],  // Allowing the frontend URLs
   methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
-  credentials: true,  // Allows credentials (cookies, authorization headers) to be sent
-  allowedHeaders: 'Content-Type, Authorization',
+  allowedHeaders: 'Content-Type,Authorization',
 }));
 
-app.use(express.json());
+app.use(express.json());  // Body parsing middleware
+app.use(express.urlencoded({ extended: true }));  // URL encoded form data handling
 
 // API routes
 app.use("/api/auth", authRoute);
 app.use("/api/availablity", availabilityRoute);
 app.use("/api/reviews", reviewRoute);
 
-// Basic test route to check if server is running
-app.get('/', (req, res) => {
-  res.send('Server is running');
+// Test route to confirm server is running
+app.get("/", (req, res) => {
+  res.status(200).send("Server is running");
 });
 
-// Default CORS test route
-app.get('/test', (req, res) => {
-  res.json({ message: 'CORS working' });
-});
+const PORT = process.env.PORT || 5000;  // Ensure it listens on the correct port
 
-// Listen on the Vercel default port or local port 5000 for development
-const PORT = process.env.PORT || 5000;
-
+// Start server after DB connection
 connectDb().then(() => {
   app.listen(PORT, () => {
-    console.log(`Server is running on port: ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
   });
 });
