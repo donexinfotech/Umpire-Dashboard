@@ -1,60 +1,131 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-function Availability() {
-    const [isAvailable, setIsAvailable] = useState(true);
-    const handleAvailabilityChange = (event) => {
-        setIsAvailable(event.target.id === 'option1');
-        console.log(isAvailable)
-    };
-    const submitAvailability = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:5000/api/availablity/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Authorization header with JWT
-                },
-                body: JSON.stringify({ isAvailable }),
-            });
-            if (!response.ok) {
-                throw new Error('Failed to update availability');
-            }
-            const data = await response.json();
-            toast.success(`${data.message}`)
-        } catch (error) {
-            console.error('Error updating availability:', error);
-        }
-    };
-    return (
-        <div className="avail mb-5">
-            <p className='font-bold mb-3'>Are You Available This Weekend?</p>
-            <div id="firstFilter" className="filter-switch">
-                <input
-                    checked={isAvailable}
-                    id="option1"
-                    name="options"
-                    type="radio"
-                    onChange={handleAvailabilityChange}
-                />
-                <label className="option" htmlFor="option1">Available</label>
-                <input
-                    checked={!isAvailable}
-                    id="option2"
-                    name="options"
-                    type="radio"
-                    onChange={handleAvailabilityChange}
-                />
-                <label className="option" htmlFor="option2">Not Available</label>
-                <span className="background"></span>
+import { FaUser, FaEnvelope, FaPhone, FaLock } from 'react-icons/fa'; // Font Awesome Icons
+
+function Register() {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const { setUser } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('https://umpire-dashboard-backend.vercel.app/api/auth/register', {
+        username,
+        email,
+        phone,
+        password,
+      });
+
+      const { token, userId } = response.data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('userId', userId);
+
+      setUser({
+        token,
+        userId,
+        email,
+      });
+
+      navigate('/umpires');
+      toast.success('Registered Successfully');
+    } catch (err) {
+      toast.error('Failed to register. Email may already be in use.');
+      setError('Failed to register. Email may already be in use.');
+      console.error('Registration error:', err);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-green-600 to-blue-500 flex items-center justify-center">
+      {/* Outer container with scroll behavior */}
+      <div className="w-full max-w-md max-h-screen overflow-y-auto bg-white rounded-lg shadow-lg p-6">
+        <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">Register</h2>
+        {error && <div className="text-red-600 mb-4">{error}</div>}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="relative">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              Username
+            </label>
+            <div className="flex items-center">
+              <FaUser className="absolute ml-3 text-gray-500" />
+              <input
+                type="text"
+                id="username"
+                className="w-full pl-10 p-2 border border-gray-300 rounded focus:ring focus:ring-blue-300"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
             </div>
-            <button
-                className="mt-3 bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold py-2 px-4 rounded shadow-lg hover:from-green-500 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 rounded-half"
-                onClick={submitAvailability}
-            >
-                Update Availability
-            </button>
-        </div>
-    );
+          </div>
+          <div className="relative">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <div className="flex items-center">
+              <FaEnvelope className="absolute ml-3 text-gray-500" />
+              <input
+                type="email"
+                id="email"
+                className="w-full pl-10 p-2 border border-gray-300 rounded focus:ring focus:ring-blue-300"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          <div className="relative">
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+              Phone
+            </label>
+            <div className="flex items-center">
+              <FaPhone className="absolute ml-3 text-gray-500 -scale-x-100" />
+              <input
+                type="text"
+                id="phone"
+                className="w-full pl-10 p-2 border border-gray-300 rounded focus:ring focus:ring-blue-300"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          <div className="relative">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <div className="flex items-center">
+              <FaLock className="absolute ml-3 text-gray-500" />
+              <input
+                type="password"
+                id="password"
+                className="w-full pl-10 p-2 border border-gray-300 rounded focus:ring focus:ring-blue-300"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          >
+            Register
+          </button>
+          <div className="text-center">
+            Already Registered?{' '}
+            <a href="/login" className="text-blue-600 hover:underline">
+              Login
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
 export default Availability;
