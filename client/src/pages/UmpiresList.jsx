@@ -78,10 +78,10 @@ function UmpiresList() {
   }
 
   return (
-    <div className="mt-8 mx-5">
+    <div className="mt-8 mx-5 h-screen">
       <h2 className="text-2xl font-bold text-center">Umpires List</h2>
       <div className="mt-4">
-        <table className="w-full border-collapse card shadow-lg">
+        <table className="w-full bg-white border-collapse card shadow-lg">
           <thead>
             <tr>
               <th className="border px-4 py-2">Name</th>

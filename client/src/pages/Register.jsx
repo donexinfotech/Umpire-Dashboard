@@ -85,7 +85,7 @@ function Register() {
             Phone
           </label>
           <div className="flex items-center">
-            <FaPhone className="absolute ml-3 text-gray-500" />
+            <FaPhone className="absolute ml-3 text-gray-500 -scale-x-100" />
             <input
               type="text"
               id="phone"

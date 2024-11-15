@@ -13,6 +13,7 @@ import UserProfile from './pages/userProfile';
 function App() {
   return (
     <AuthProvider>
+      <div className='bg-gradient-to-br from-blue-500 via-green-600 to-blue-500 bg-opacity-60'>
       <Router>
         <Navbar />
         <Routes>
@@ -24,6 +25,7 @@ function App() {
           <Route path="/user" element={<UserProfile />} />
         </Routes>
       </Router>
+      </div>
     </AuthProvider>
   );
 }
