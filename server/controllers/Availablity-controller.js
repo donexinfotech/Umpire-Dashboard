@@ -17,7 +17,7 @@ const Available = async (req, res) => {
         )
 
         res.status(200).json({
-            message :  `Umpire Availability made to ${data.isAvailable}`
+            message :  `${data.isAvailable}`
         })
 
     } catch (error) {

@@ -1,70 +1,80 @@
 const mongoose = require("mongoose");
-const bycrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
-    username:{
-        type:String,
-        require:true
+    username: {
+        type: String,
+        required: true,
     },
-    email:{
-        type:String,
-        require:true
+    email: {
+        type: String,
+        required: true,
     },
-    phone:{
-        type:String,
-        require:true
+    phone: {
+        type: String,
+        required: true,
     },
-    password:{
-        type:String,
-        require:true
+    password: {
+        type: String,
+        required: true,
     },
-    isAdmin:{
-        type:Boolean,
-        default:false
+    isAdmin: {
+        type: Boolean,
+        default: false,
     },
-    isAvailable:{
-        type:Boolean,
-        default : false
-    }
+    isAvailable: {
+        type: Boolean,
+        default: false,
+    },
+    reviews: {
+        type: [Number], // Array to store star ratings
+        default: [],
+    },
 });
 
-//Securing password before saving it
-userSchema.pre("save", async function(next){
+// Hash password before saving
+userSchema.pre("save", async function (next) {
     const user = this;
 
-    if(!user.isModified('password')){
+    if (!user.isModified("password")) {
         next();
     }
 
     try {
-        const salt = await bycrypt.genSalt(10);
-        const password_hash = await bycrypt.hash(user.password, salt);
-        user.password = password_hash;
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(user.password, salt);
+        user.password = passwordHash;
     } catch (error) {
         next(error);
     }
-})
+});
 
-userSchema.methods.generateToken = async function(){
+// Generate JWT token
+userSchema.methods.generateToken = async function () {
     try {
-        return jwt.sign({
-            userId : this._id.toString(),
-            email : this.email,
-            isAdmin : this.isAdmin,
-        },"DONEXIT",
-    {
-        expiresIn:"30d",
-    }
-)
-        
+        return jwt.sign(
+            {
+                userId: this._id.toString(),
+                email: this.email,
+                isAdmin: this.isAdmin,
+            },
+            "DONEXIT",
+            {
+                expiresIn: "30d",
+            }
+        );
     } catch (error) {
         console.log(error);
     }
 };
 
+userSchema.methods.getAverageRating = function () {
+    const total = this.reviews.reduce((sum, rating) => sum + rating, 0);
+    return this.reviews.length ? (total / this.reviews.length).toFixed(1) : 0;
+};
 
-//Defining a model or the collection name
-const User = new mongoose.model("User", userSchema);
+// Define model
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

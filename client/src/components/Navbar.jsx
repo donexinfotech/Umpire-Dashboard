@@ -20,6 +20,7 @@ function Navbar() {
           {user ? (
             <>
               <Link to="/umpires" className="hover:text-blue-200">Umpires List</Link>
+              <Link to="/availability" className="hover:text-blue-200">Availability</Link>
               {/* Dropdown Button */}
               <div className="relative">
                 <button

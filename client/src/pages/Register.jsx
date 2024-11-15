@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -34,9 +35,11 @@ function Register() {
         userId,
         email,
       });
-
+      
       navigate('/umpires'); // Redirect to Umpires List page
+      toast.success("Registered Succesfully")
     } catch (err) {
+      toast.error(error)
       setError('Failed to register. Email may already be in use.');
       console.error('Registration error:', err);
     }
@@ -94,6 +97,9 @@ function Register() {
         <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
           Register
         </button>
+        <div className="login">
+          Already Registered <a style={{"color" : "blue"}} href="/login">Login</a>
+        </div>
       </form>
     </div>
   );

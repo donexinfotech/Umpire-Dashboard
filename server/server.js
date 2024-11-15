@@ -4,6 +4,7 @@ const connectDb = require("./utils/db")
 const cors = require("cors");
 const authRoute = require("./router/Auth-router")
 const availabilityRoute = require('./router/Availablity-router')
+const reviewRoute = require("./router/Reviews-router")
 
 app.use(cors({
     origin: '*',
@@ -15,6 +16,7 @@ app.use(cors({
 app.use(express.json());
 app.use("/api/auth", authRoute)
 app.use("/api/availablity", availabilityRoute)
+app.use("/api/reviews", reviewRoute)
 
 
 const PORT = 5000;

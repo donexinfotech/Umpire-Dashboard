@@ -1,3 +1,153 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* From Uiverse.io by Xtenso */ 
+.filter-switch {
+    border: 2px solid #ffc000;
+    border-radius: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 400px;
+    overflow: hidden;
+  }
+  .filter-switch input {
+    display: none;
+  }
+  .filter-switch label {
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    border-radius: 30px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: all 0.5s;
+    font-weight: 500;
+    font-size: 18px;
+  }
+  .filter-switch .background {
+    position: absolute;
+    width: 49%;
+    height: 38px;
+    background-color: #ffc000;
+    top: 4px;
+    left: 4px;
+    border-radius: 30px;
+    transition: left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  #option2:checked ~ .background {
+    left: 50%;
+  }
+  #option1:checked + label[for="option1"] {
+    color: #212121;
+    font-weight: bold;
+  }
+  #option2:checked + label[for="option2"] {
+    color: #212121;
+    font-weight: bold;
+  }
+  #option1:not(:checked) + label[for="option1"],
+  #option2:not(:checked) + label[for="option2"] {
+    color: #7d7d7d;
+  }
+
+  .avail{
+    height: 600px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+
+  /* From Uiverse.io by SelfMadeSystem */ 
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 0.3rem;
+    --stroke: #666;
+    --fill: #ffc73a;
+  }
+  
+  .rating input {
+    appearance: unset;
+  }
+  
+  .rating label {
+    cursor: pointer;
+  }
+  
+  .rating svg {
+    width: 2rem;
+    height: 2rem;
+    overflow: visible;
+    fill: transparent;
+    stroke: var(--stroke);
+    stroke-linejoin: bevel;
+    stroke-dasharray: 12;
+    animation: idle 4s linear infinite;
+    transition: stroke 0.2s, fill 0.5s;
+  }
+  
+  @keyframes idle {
+    from {
+      stroke-dashoffset: 24;
+    }
+  }
+  
+  .rating label:hover svg {
+    stroke: var(--fill);
+  }
+  
+  .rating input:checked ~ label svg {
+    transition: 0s;
+    animation: idle 4s linear infinite, yippee 0.75s backwards;
+    fill: var(--fill);
+    stroke: var(--fill);
+    stroke-opacity: 0;
+    stroke-dasharray: 0;
+    stroke-linejoin: miter;
+    stroke-width: 8px;
+  }
+  
+  @keyframes yippee {
+    0% {
+      transform: scale(1);
+      fill: var(--fill);
+      fill-opacity: 0;
+      stroke-opacity: 1;
+      stroke: var(--stroke);
+      stroke-dasharray: 10;
+      stroke-width: 1px;
+      stroke-linejoin: bevel;
+    }
+  
+    30% {
+      transform: scale(0);
+      fill: var(--fill);
+      fill-opacity: 0;
+      stroke-opacity: 1;
+      stroke: var(--stroke);
+      stroke-dasharray: 10;
+      stroke-width: 1px;
+      stroke-linejoin: bevel;
+    }
+  
+    30.1% {
+      stroke: var(--fill);
+      stroke-dasharray: 0;
+      stroke-linejoin: miter;
+      stroke-width: 8px;
+    }
+  
+    60% {
+      transform: scale(1.2);
+      fill: var(--fill);
+    }
+  }
+  

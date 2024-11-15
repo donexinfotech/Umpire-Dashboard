@@ -30,9 +30,10 @@ function Login() {
         userId,
         email,
       });
-
       navigate('/umpires'); // Redirect to Umpires List page
+      toast.success("Loggedin Succesfully")
     } catch (err) {
+      toast.error(error)
       setError('Invalid email or password.');
       console.error('Login error:', err);
     }
