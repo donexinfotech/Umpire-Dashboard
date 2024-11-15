@@ -11,7 +11,7 @@ const UserProfile = ({ user }) => {
     // Fetch average rating from the backend
     const fetchAvgRating = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/reviews/${user._id}`);
+        const response = await axios.get(`https://umpire-dashboard-backend.vercel.app/api/reviews/${user._id}`);
         setAvgRating(response.data.averageRating); // Update state with the average rating
       } catch (err) {
         console.error('Failed to fetch average rating', err);
