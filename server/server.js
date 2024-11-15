@@ -17,6 +17,7 @@ app.use(express.json());
 app.use("/api/auth", authRoute)
 app.use("/api/availablity", availabilityRoute)
 app.use("/api/reviews", reviewRoute)
+
 app.get('/', (req, res) => {
     res.send('Server is running');
 });
