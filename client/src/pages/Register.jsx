@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import { FaUser, FaEnvelope, FaPhone, FaLock } from 'react-icons/fa'; // Font Awesome Icons
+import { Link } from 'react-router-dom';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -120,9 +121,9 @@ function Register() {
         </button>
         <div className="text-center">
           Already Registered?{' '}
-          <a href="/login" className="text-blue-600 hover:underline">
+          <Link to="/login" className="text-blue-600 hover:underline">
             Login
-          </a>
+          </Link>
         </div>
       </form>
     </div>
