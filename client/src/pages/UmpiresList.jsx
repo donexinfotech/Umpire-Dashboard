@@ -17,7 +17,7 @@ function UmpiresList() {
     if (user) {
       const fetchUmpires = async () => {
         try {
-          const response = await axios.get('https://umpire-dashboard-backend.vercel.app/api/availablity/get', {
+          const response = await axios.get('http://localhost:5000/api/availablity/get', {
             headers: {
               Authorization: `Bearer ${user.token}`,
             },
@@ -25,7 +25,7 @@ function UmpiresList() {
           // Assuming the response includes umpire data with ratings
           const umpireData = await Promise.all(
             response.data.map(async (umpire) => {
-              const ratingResponse = await axios.get(`https://umpire-dashboard-backend.vercel.app/api/reviews/${umpire._id}`);
+              const ratingResponse = await axios.get(`http://localhost:5000/api/reviews/${umpire._id}`);
               return {
                 ...umpire,
                 avgRating: ratingResponse.data.averageRating || 0, // Add average rating to each umpire
