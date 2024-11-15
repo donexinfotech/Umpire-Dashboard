@@ -8,7 +8,7 @@ import Register from './pages/Register';
 import UmpiresList from './pages/UmpiresList';
 import Home from './pages/Home';
 import Availability from './pages/Availability';
-import UserProfile from './pages/userProfile';
+import UserProfile from './pages/UserProfile';
 
 function App() {
   return (
