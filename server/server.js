@@ -7,7 +7,7 @@ const availabilityRoute = require("./router/Availablity-router");
 const reviewRoute = require("./router/Reviews-router");
 
 app.use(cors({
-  origin: ['https://umpire-dashboard.vercel.app', 'http://localhost:3000'],  // Allowing the frontend URLs
+  origin: ['https://umpire-dashboard.vercel.app', 'http://localhost:5173'],  // Allowing the frontend URLs
   methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
   allowedHeaders: 'Content-Type,Authorization',
 }));
